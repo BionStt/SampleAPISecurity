@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SecurityAPIBackend.Models;
 using SecurityAPIBackend.Services;
 
 namespace SecurityAPIBackend.Controllers
@@ -20,22 +21,33 @@ namespace SecurityAPIBackend.Controllers
 
         // GET: api/Barang
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<Barang>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var models = await _barang.GetAll();
+            return models;
         }
 
         // GET: api/Barang/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<Barang> Get(int id)
         {
-            return "value";
+            var model = await _barang.GetById(id.ToString());
+            return model;
         }
 
         // POST: api/Barang
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] Barang barang)
         {
+            try
+            {
+                await _barang.Create(barang);
+                return Ok(barang);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT: api/Barang/5
