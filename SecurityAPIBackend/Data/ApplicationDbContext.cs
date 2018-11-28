@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SecurityAPIBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace SecurityAPIBackend.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+        public DbSet<Barang> Barang { get; set; }
     }
 }
