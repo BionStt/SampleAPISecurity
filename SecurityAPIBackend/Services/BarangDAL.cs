@@ -29,9 +29,20 @@ namespace SecurityAPIBackend.Services
             }
         }
 
-        public Task Delete(Barang obj)
+        public async Task Delete(Barang obj)
         {
-            throw new NotImplementedException();
+            var model = await GetById(obj.KodeBarang);
+            try
+            {
+                if (model == null)
+                    throw new Exception($"Data {obj.NamaBarang} tidak ditemukan");
+                _db.Remove(model);
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<Barang>> GetAll()
@@ -52,9 +63,23 @@ namespace SecurityAPIBackend.Services
             return model;
         }
 
-        public Task Update(Barang obj)
+        public async Task Update(Barang obj)
         {
-            throw new NotImplementedException();
+            var model = await GetById(obj.KodeBarang);
+            try
+            {
+                if (model == null)
+                    throw new Exception($"Data {obj.NamaBarang} tidak ditemukan");
+                model.NamaBarang = obj.NamaBarang;
+                model.Jumlah = obj.Jumlah;
+                model.HargaBeli = obj.HargaBeli;
+                model.HargaJual = obj.HargaJual;
+                await _db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
