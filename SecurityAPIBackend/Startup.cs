@@ -81,6 +81,15 @@ namespace SecurityAPIBackend
                 app.UseHsts();
             }
 
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }
