@@ -9,6 +9,7 @@ using SecurityAPIBackend.Services;
 
 namespace SecurityAPIBackend.Controllers
 {
+    //
     [Route("api/[controller]")]
     [ApiController]
     public class BarangController : ControllerBase
