@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SecurityAPIBackend.Data;
+using SecurityAPIBackend.Services;
 
 namespace SecurityAPIBackend
 {
@@ -35,6 +36,7 @@ namespace SecurityAPIBackend
                 .AddDefaultUI().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddTransient<IBarang, BarangDAL>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
