@@ -29,9 +29,9 @@ namespace SecurityAPIBackend.Controllers
 
         // GET: api/Barang/5
         [HttpGet("{id}", Name = "Get")]
-        public async Task<Barang> Get(int id)
+        public async Task<Barang> Get(string id)
         {
-            var model = await _barang.GetById(id.ToString());
+            var model = await _barang.GetById(id);
             return model;
         }
 
@@ -52,14 +52,32 @@ namespace SecurityAPIBackend.Controllers
 
         // PUT: api/Barang/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put([FromBody] Barang barang)
         {
+            try
+            {
+                await _barang.Update(barang);
+                return Ok(barang);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete([FromBody] Barang barang)
         {
+            try
+            {
+                await _barang.Delete(barang);
+                return Ok(barang);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
