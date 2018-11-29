@@ -33,6 +33,16 @@ namespace SecurityAPIBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IBarang, BarangDAL>();
+            services.AddTransient<IUser, UserDAL>();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+               .AddDefaultTokenProviders()
+               .AddEntityFrameworkStores<ApplicationDbContext>();
+
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -58,15 +68,7 @@ namespace SecurityAPIBackend
                 };
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddDefaultUI().AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddTransient<IBarang, BarangDAL>();
-            services.AddTransient<IUser, UserDAL>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
