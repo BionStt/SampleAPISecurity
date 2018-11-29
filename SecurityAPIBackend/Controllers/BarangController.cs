@@ -16,23 +16,31 @@ namespace SecurityAPIBackend.Controllers
     public class BarangController : ControllerBase
     {
         private IBarang _barang;
-        public BarangController(IBarang barang)
+        private IUser _usr;
+
+        public BarangController(IBarang barang,IUser usr)
         {
             _barang = barang;
+            _usr = usr;
         }
 
         // GET: api/Barang
         [HttpGet]
-        public async Task<IEnumerable<Barang>> Get()
+        public async Task<IActionResult> Get()
         {
+            var username = User.Identity.Name;
+            if (!await _usr.CheckUserInRole(username, "admin"))
+                return Unauthorized();
+
             var models = await _barang.GetAll();
-            return models;
+            return Ok(models);
         }
 
         // GET: api/Barang/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<Barang> Get(string id)
         {
+          
             var model = await _barang.GetById(id);
             return model;
         }
