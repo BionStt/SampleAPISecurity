@@ -66,6 +66,7 @@ namespace SecurityAPIBackend
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddTransient<IBarang, BarangDAL>();
+            services.AddTransient<IUser, UserDAL>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
